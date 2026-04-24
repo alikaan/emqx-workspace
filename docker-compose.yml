@@ -1,0 +1,27 @@
+services:
+  emqx:
+    image: emqx:5
+    container_name: emqx
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Istanbul
+      - EMQX_DASHBOARD__DEFAULT_PASSWORD=changeme123  # change this!
+      - EMQX_ALLOW_ANONYMOUS=false
+    ports:
+      - "1883:1883"    # MQTT
+      - "8083:8083"    # MQTT over WebSocket
+      - "8883:8883"    # MQTT over TLS
+      - "8084:8084"    # MQTT over WSS (TLS WebSocket)
+      - "18083:18083"  # Web dashboard
+    volumes:
+      - emqx_data:/opt/emqx/data
+      - emqx_log:/opt/emqx/log
+    healthcheck:
+      test: ["CMD", "/opt/emqx/bin/emqx", "ctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  emqx_data:
+  emqx_log:
