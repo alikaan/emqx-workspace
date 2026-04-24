@@ -2,7 +2,7 @@ services:
   emqx:
     image: emqx:5
     container_name: emqx
-    restart: unless-stopped
+    restart: always
     environment:
       - TZ=Europe/Istanbul
       - EMQX_DASHBOARD__DEFAULT_PASSWORD=changeme123  # change this!
